@@ -22,14 +22,22 @@ public class AppDbContext : DbContext
 
         // User → Transaction (1-to-many)
         modelBuilder.Entity<Transaction>()
-            .HasOne<User>()
-            .WithMany(u => u.Transactions);
+           .HasOne(t => t.User)
+        .WithMany(u => u.Transactions)
+        .HasForeignKey(t => t.UserId);
 
         // User → Budget (1-to-many)
         modelBuilder.Entity<Budget>()
             .HasOne(b => b.User)
             .WithMany()
             .HasForeignKey(b => b.UserId);
+
+            modelBuilder.Entity<Category>().HasData(
+        new Category { Id = 1, Name = "Food" },
+        new Category { Id = 2, Name = "Rent" },
+        new Category { Id = 3, Name = "Transport" },
+        new Category { Id = 4, Name = "Salary" },
+        new Category { Id = 5, Name = "Entertainment" });
     }
 }
 

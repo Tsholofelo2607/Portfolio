@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PersonalFinance.Core.Data;
 
@@ -10,9 +11,11 @@ using PersonalFinance.Core.Data;
 namespace PersonalFinance.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251217141648_ConfigureTransactionRelationships")]
+    partial class ConfigureTransactionRelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -59,33 +62,6 @@ namespace PersonalFinance.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Food"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Rent"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Transport"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Salary"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Entertainment"
-                        });
                 });
 
             modelBuilder.Entity("PersonalFinance.Core.Models.Transaction", b =>
