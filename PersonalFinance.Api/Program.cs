@@ -10,6 +10,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Add Swagger for API documentation/testing
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers(); //Registers controllers
+
+//failed to fetch error
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -21,6 +33,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers(); //Maps controllers routes
+
+app.UseCors();
 
 app.Run();
 

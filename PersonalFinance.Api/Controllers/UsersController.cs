@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PersonalFinance.Core.Data;
 using PersonalFinance.Core.Models;
 using PersonalFinance.Api.DTOs.Users;
+using System.Security.Cryptography;
 
 namespace PersonalFinance.Api.Controllers;
 
@@ -28,11 +29,18 @@ public class UsersController : ControllerBase
         {
             return BadRequest("Email already exists.");
         }
-
+ // Create password hash & salt
+    using var hmac = new HMACSHA512();
+    var passwordSalt = hmac.Key;
+    var passwordHash = hmac.ComputeHash(
+        System.Text.Encoding.UTF8.GetBytes(dto.Password)
+    );
         var user = new User
         {
             Name = dto.Name,
-            Email = dto.Email
+            Email = dto.Email,
+            PasswordSalt = passwordSalt,
+            PasswordHash = passwordHash
         };
 
         _context.Users.Add(user);
